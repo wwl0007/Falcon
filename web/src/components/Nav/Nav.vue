@@ -5,6 +5,7 @@
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><NavLink to="/">Home</NavLink></li>
                     <li><NavLink to="/about">About</NavLink></li>
+                    <li><NavLink to="/individuals">Individuals</NavLink></li>
                 </ul>
             </div>
         </div>

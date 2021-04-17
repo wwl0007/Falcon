@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <Nav></Nav>
-        <router-view/>
+        <div class="d-flex justify-content-center">
+            <router-view/>
+        </div>
     </div>
 </template>
 
@@ -23,7 +25,6 @@
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
         color: #2c3e50;
     }
 
