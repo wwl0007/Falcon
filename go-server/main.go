@@ -1,29 +1,42 @@
 package main
 
 import (
-	"io"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+	"github.com/wwl0007/Project3/controllers"
 	"github.com/wwl0007/Project3/database"
+	"github.com/wwl0007/Project3/models"
 )
 
-func main() {
+func getPatientHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Endpoint hit: GET patients")
+	json.NewEncoder(w).Encode(database.GetAllPatients())
+}
 
-	helloHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "Hello, world!\n")
+func putPatientHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Endpoint hit: PUT patients")
+	w.Header().Set("Content-Type", "application/json")
+	var patientData models.PatientData
+	_ = json.NewDecoder(r.Body).Decode(&patientData)
+	if database.PatientDataExists(int(patientData.ID)) {
+		database.UpdatePatientData(&patientData)
+	} else {
+		// Sort the patient data
+		patientData.HistoryClass = controllers.AssignHistoryClass(&patientData)
+		log.Println(patientData.HistoryClass)
+		database.AddPatientData(&patientData)
 	}
+}
 
-	dbRef := database.New("domo.db")
-	defer func() {
-		sqlDB, _ := dbRef.DB()
-		err := sqlDB.Close()
-		if err != nil {
-			log.Fatalf("Could not close database: %v", err)
-		}
-	}()
+func main() {
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/patients", getPatientHandler).Methods("GET")
+	router.HandleFunc("/patients", putPatientHandler).Methods("PUT")
 
-	http.HandleFunc("/hello", helloHandler)
-	log.Println("Listing for requests at http://localhost:8000/hello")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Println("Server started, listening at port :8000")
+	log.Fatal(http.ListenAndServe(":8000", router))
 }
