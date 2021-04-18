@@ -13,7 +13,7 @@
         currentRoutePath: string = this.$router.currentRoute.path;
 
         get linkType(): string {
-            return this.currentRoutePath === this.to ? 'link-secondary' : 'link-dark';
+            return this.currentRoutePath === this.to ? 'active' : '';
         }
 
         @Watch('$route')

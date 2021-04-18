@@ -17,6 +17,12 @@ module.exports = {
     'indent': 'off',
     'semi': 'off',
     'no-trailing-spaces': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    '@typescript-eslint/no-empty-function': 'warn',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'quotes': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-interface': 'warn',
+    'camelcase': 'off'
   }
 }
