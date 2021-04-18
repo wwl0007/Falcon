@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/wwl0007/Project3/database"
-	"github.com/wwl0007/Project3/models"
 )
 
 func main() {
@@ -16,18 +15,13 @@ func main() {
 	}
 
 	dbRef := database.New("domo.db")
-
-	fh := models.NewFullHistory(false, false, "", 0, true, true, nil)
-	p := models.NewPatientData(false, "A", "adssa", *fh)
-	u := &models.PatientData{
-		IsPathogenic: true,
-		Gene:         "asad",
-		HistoryClass: "Adsad",
-		FullHistory:  *fh,
-	}
-
-	dbRef.Create(u)
-	dbRef.Create(p)
+	defer func() {
+		sqlDB, _ := dbRef.DB()
+		err := sqlDB.Close()
+		if err != nil {
+			log.Fatalf("Could not close database: %v", err)
+		}
+	}()
 
 	http.HandleFunc("/hello", helloHandler)
 	log.Println("Listing for requests at http://localhost:8000/hello")
