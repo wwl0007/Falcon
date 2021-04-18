@@ -1,1 +1,2 @@
 *.exe
+go-server/domo.db

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rs/cors"
 	"github.com/gorilla/mux"
 	"github.com/wwl0007/Project3/controllers"
 	"github.com/wwl0007/Project3/database"
@@ -37,6 +38,13 @@ func main() {
 	router.HandleFunc("/patients", getPatientHandler).Methods("GET")
 	router.HandleFunc("/patients", putPatientHandler).Methods("PUT")
 
+	c := cors.New(cors.Options{
+        AllowedOrigins: []string{"http://localhost:8080"},
+        AllowCredentials: true,
+    })
+
+    handler := c.Handler(router)
+
 	log.Println("Server started, listening at port :8000")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8000", handler))
 }
