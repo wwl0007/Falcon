@@ -5,17 +5,27 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
-	"github.com/rs/cors"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"github.com/wwl0007/Project3/controllers"
 	"github.com/wwl0007/Project3/database"
 	"github.com/wwl0007/Project3/models"
 )
 
-func getPatientHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Endpoint hit: GET patients")
+func getAllPatientsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(database.GetAllPatients())
+}
+
+func getPatientHandler(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		json.NewEncoder(w).Encode("Could not find the patient")
+		return
+	}
+	json.NewEncoder(w).Encode(database.GetPatient(id))
 }
 
 func putPatientHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,15 +45,16 @@ func putPatientHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/patients", getPatientHandler).Methods("GET")
+	router.HandleFunc("/patients", getAllPatientsHandler).Methods("GET")
+	router.HandleFunc("/patients/{id}", getPatientHandler).Methods("GET")
 	router.HandleFunc("/patients", putPatientHandler).Methods("PUT")
 
 	c := cors.New(cors.Options{
-        AllowedOrigins: []string{"http://localhost:8080"},
-        AllowCredentials: true,
-    })
+		AllowedOrigins:   []string{"http://localhost:8080"},
+		AllowCredentials: true,
+	})
 
-    handler := c.Handler(router)
+	handler := c.Handler(router)
 
 	log.Println("Server started, listening at port :8000")
 	log.Fatal(http.ListenAndServe(":8000", handler))
