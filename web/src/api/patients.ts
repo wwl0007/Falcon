@@ -1,5 +1,16 @@
 import api from ".";
 
+export interface RelativeHistoryItem {
+    ID: boolean,
+    CreatedAt: string,
+    UpdatedAt: string,
+    DeletedAt: string | null,
+    Relation: string,
+    Cancer: string,
+    age: number,
+    PatientDataID: number
+}
+
 export interface Patient {
     ID: number,
     CreatedAt: string,
@@ -16,7 +27,7 @@ export interface Patient {
     known_brca: boolean,
     known_cancer: boolean,
     _method: string,
-    RelativeHistory: any[]
+    RelativeHistory: RelativeHistoryItem[]
 }
 
 export async function fetchPatients() {

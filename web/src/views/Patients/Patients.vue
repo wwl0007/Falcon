@@ -1,9 +1,13 @@
 <template>
     <div>
-        <div class="d-flex justify-content-end" @click="$router.push('/patients/add')">
-            <b-button variant="primary">Add Patient</b-button>
+        <div class="d-flex justify-content-end">
+            <b-button variant="primary" @click="$router.push('/patients/edit')">Add Patient</b-button>
         </div>
-        <b-table striped hover :items="items" :fields="fields" />
+        <b-table striped hover :items="items" :fields="fields">
+            <template #cell(RelativeHistory)="">
+                <b-button>View</b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 

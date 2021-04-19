@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="to" :class="`nav-link px-2 ${linkType}`"><slot></slot></router-link>
+    <router-link :to="to" :class="`nav-link px-4 ${linkType}`"><slot></slot></router-link>
 </template>
 
 <script lang="ts">
