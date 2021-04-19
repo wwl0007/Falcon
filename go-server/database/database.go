@@ -45,6 +45,17 @@ func AddPatientData(toAdd *models.PatientData) {
 	}
 }
 
+func GetPatient(id int) models.PatientData {
+	db := DBRef()
+	var patient models.PatientData
+	err := db.Preload("RelativeHistory").First(&patient, id).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
+
+	return patient
+}
+
 func GetAllPatients() []models.PatientData {
 	var patients []models.PatientData
 	db := DBRef()
