@@ -24,8 +24,10 @@ func new(dbFilename string) *gorm.DB {
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(&models.PatientData{}, &models.RelativeHistory{})
-
+	err = db.AutoMigrate(&models.PatientData{}, &models.RelativeHistory{})
+	if err != nil {
+		panic("Could not migrate")
+	}
 	return db
 }
 

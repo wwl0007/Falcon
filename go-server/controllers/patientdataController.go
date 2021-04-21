@@ -3,8 +3,22 @@ package controllers
 import (
 	"math/rand"
 
+	"github.com/wwl0007/Project3/database"
 	"github.com/wwl0007/Project3/models"
 )
+
+func UpdateOrCreateNewPatientData(patientData models.PatientDataREST, calculateHistoryClass bool) {
+	toAdd := models.PatientDataRESTToGORM(&patientData)
+
+	if database.PatientDataExists(int(patientData.ID)) {
+		database.UpdatePatientData(toAdd)
+	} else {
+		if calculateHistoryClass {
+			toAdd.HistoryClass = AssignHistoryClass(toAdd)
+		}
+		database.AddPatientData(toAdd)
+	}
+}
 
 func AssignHistoryClass(p *models.PatientData) string {
 	val := rand.Intn(400) % 4

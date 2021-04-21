@@ -11,25 +11,37 @@ type RelativeHistory struct {
 }
 
 type FullHistory struct {
-	Ethnicity       string `json:"ethnicity"`
-	ConsentApproval bool   `json:"consent_approval"`
-	CancerDX        bool   `json:"cancer_dx"`
-	CancerDXType    string `json:"cancer_dx_type"`
-	CancerDXAge     int    `json:"cancer_dx_age"`
-	KnownBRCA       bool   `json:"known_brca"`
-	KnownCancer     bool   `json:"known_cancer"`
-	Method          string `json:"_method"`
+	Ethnicity       string
+	ConsentApproval string
+	CancerDX        string
+	CancerDXType    string
+	CancerDXAge     int
+	KnownBRCA       string
+	KnownCancer     string
 	RelativeHistory []RelativeHistory
+}
+
+type FullHistoryREST struct {
+	ConsentApproval  string   `json:"consent_approval"`
+	Ethnicity        string   `json:"ethnicity"`
+	CancerDX         string   `json:"cancer_dx"`
+	CancerDXType     string   `json:"cancer_dx_type"`
+	CancerDXAge      string   `json:"cancer_dx_age"`
+	KnownBRCA        string   `json:"known_brca"`
+	KnownCancer      string   `json:"known_cancer"`
+	RelativeRelation []string `json:"rel_relation"`
+	RelativeCancer   []string `json:"rel_cancer"`
+	RelativeAge      []string `json:"rel_age"`
 }
 
 func NewFullHistory(
 	ethnicity string,
-	consentApproval bool,
-	cancerDX bool,
+	consentApproval string,
+	cancerDX string,
 	cancerDXType string,
 	cancerDXAge int,
-	knownBRCA bool,
-	knownCancer bool,
+	knownBRCA string,
+	knownCancer string,
 	relativeHistory []RelativeHistory,
 ) *FullHistory {
 	f := FullHistory{
