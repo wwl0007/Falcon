@@ -7,7 +7,7 @@ export interface RelativeHistoryItem {
     DeletedAt: string | null,
     Relation: string,
     Cancer: string,
-    age: number,
+    Age: number,
     PatientDataID: number
 }
 
@@ -16,21 +16,25 @@ export interface Patient {
     CreatedAt: string,
     UpdatedAt: string,
     DeletedAt: string | null,
-    IsPathogenic: boolean,
+    Pathogenic: string,
     Gene: string,
     HistoryClass: string,
-    ethnicity: string,
-    consent_approval: boolean,
-    cancer_dx: boolean,
-    cancer_dx_type: string,
-    cancer_dx_age: number,
-    known_brca: boolean,
-    known_cancer: boolean,
-    _method: string,
+    Ethnicity: string,
+    ConsentApproval: string,
+    CancerDX: string,
+    CancerDXType: string,
+    CancerDXAge: number,
+    KnownBRCA: string,
+    KnownCancer: string,
     RelativeHistory: RelativeHistoryItem[]
 }
 
 export async function fetchPatients() {
     const response = await api.get('/patients');
+    return response.data;
+}
+
+export async function fetchPatientById(patientId: number) {
+    const response = await api.get(`/patients/${patientId}`);
     return response.data;
 }

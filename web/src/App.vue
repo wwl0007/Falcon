@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <Nav></Nav>
-        <div class="d-flex justify-content-center app-content">
-            <router-view/>
+        <div class="container">
+            <router-view />
         </div>
     </div>
 </template>
@@ -26,10 +26,5 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
-    }
-
-    .app-content {
-        margin-left: 10%;
-        margin-right: 10%;
     }
 </style>

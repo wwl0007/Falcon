@@ -1,2 +1,3 @@
 *.exe
 go-server/domo.db
+go-server/domosmall.db

@@ -26,6 +26,10 @@
         get showButtonText() {
             return this.isShown ? 'Hide' : 'Show';
         }
+
+        mounted() {
+            console.log("family history", this.value);
+        }
     }
 </script>
 

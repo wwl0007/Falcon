@@ -4,8 +4,8 @@
             <b-button variant="primary" @click="$router.push('/patients/edit')">Add Patient</b-button>
         </div>
         <b-table striped hover :items="items" :fields="fields">
-            <template #cell(RelativeHistory)="">
-                <b-button>View</b-button>
+            <template #cell(Action)="row">
+                <b-button @click="$router.push(`/patients/view/${row.item.ID}`)">View</b-button>
             </template>
         </b-table>
     </div>
@@ -20,21 +20,25 @@
         items: Patient[] = [];
         fields = [
             'ID',
-            'IsPathogenic',
+            'Pathogenic',
             'Gene',
             'HistoryClass',
-            'ethnicity',
-            'consent_approval',
-            'cancer_dx',
-            'cancer_dx_type',
-            'cancer_dx_age',
-            'known_brca',
-            'known_cancer',
-            'RelativeHistory'
+            'Ethnicity',
+            'ConsentApproval',
+            'CancerDX',
+            'CancerDXType',
+            'CancerDXAge',
+            'KnownBRCA',
+            'KnownCancer',
+            'Action'
         ]
 
         async mounted() {
             this.items = await fetchPatients();
+        }
+
+        doThing(val: any) {
+            console.log(val);
         }
     }
 </script>
