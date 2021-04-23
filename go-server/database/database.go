@@ -47,15 +47,15 @@ func AddPatientData(toAdd *models.PatientData) {
 	}
 }
 
-func GetPatient(id int) models.PatientData {
+func GetPatient(id int) (models.PatientData, error) {
 	db := DBRef()
 	var patient models.PatientData
 	err := db.Preload("RelativeHistory").First(&patient, id).Error
 	if err != nil {
-		log.Printf("%+v", err)
+		return patient, err
 	}
 
-	return patient
+	return patient, err
 }
 
 func GetPaginatedPaients(numberOfItems int, offset int) []models.PatientData {
@@ -66,6 +66,44 @@ func GetPaginatedPaients(numberOfItems int, offset int) []models.PatientData {
 		log.Printf("%v", err)
 	}
 	return patients
+}
+
+func GetRelativeHistory(id int) (models.RelativeHistory, error) {
+	db := DBRef()
+	var relative models.RelativeHistory
+	err := db.First(&relative, id).Error
+	if err != nil {
+		return relative, err
+	}
+
+	return relative, err
+}
+
+func DeleteRelativeHistory(id int) {
+	db := DBRef()
+	relative := models.RelativeHistory{}
+	relative.ID = uint(id)
+
+	err := db.Delete(&relative).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
+}
+
+func DeletePatient(id int) {
+	db := DBRef()
+	patient := models.PatientData{}
+	patient.ID = uint(id)
+
+	err := db.Delete(&patient).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
+
+	err = db.Where("patient_data_id = ?", id).Delete(&models.RelativeHistory{}).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
 }
 
 func GetAllPatients() []models.PatientData {
