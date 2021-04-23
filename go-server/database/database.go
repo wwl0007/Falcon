@@ -58,6 +58,16 @@ func GetPatient(id int) models.PatientData {
 	return patient
 }
 
+func GetPaginatedPaients(numberOfItems int, offset int) []models.PatientData {
+	var patients []models.PatientData
+	db := DBRef()
+	err := db.Limit(numberOfItems).Offset(offset).Preload("RelativeHistory").Find(&patients).Error
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	return patients
+}
+
 func GetAllPatients() []models.PatientData {
 	var patients []models.PatientData
 	db := DBRef()
