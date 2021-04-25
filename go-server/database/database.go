@@ -68,6 +68,37 @@ func GetPaginatedPaients(numberOfItems int, offset int) []models.PatientData {
 	return patients
 }
 
+func RelativeHistoryExists(ID int) bool {
+	if ID == 0 {
+		return false
+	}
+
+	var relativeHistory models.RelativeHistory
+	db := DBRef()
+	err := db.First(&relativeHistory, ID).Error
+	if err == nil {
+		return true
+	} else {
+		return false
+	}
+}
+
+func UpdateRelativeHistory(toAdd *models.RelativeHistory) {
+	db := DBRef()
+	err := db.Save(toAdd).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
+}
+
+func AddRelativeHistory(toAdd *models.RelativeHistory) {
+	db := DBRef()
+	err := db.Create(toAdd).Error
+	if err != nil {
+		log.Printf("%+v", err)
+	}
+}
+
 func GetRelativeHistory(id int) (models.RelativeHistory, error) {
 	db := DBRef()
 	var relative models.RelativeHistory

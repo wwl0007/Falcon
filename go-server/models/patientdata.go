@@ -62,6 +62,7 @@ func PatientDataRESTToGORM(rest *PatientDataREST) *PatientData {
 				rest.FullHistory.RelativeRelation[i],
 				rest.FullHistory.RelativeCancer[i],
 				age,
+				rest.ID,
 			),
 		)
 	}

@@ -1,9 +1,19 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type RelativeHistory struct {
 	gorm.Model
+	Relation      string
+	Cancer        string
+	Age           int
+	PatientDataID int
+}
+
+type RelativeHistoryREST struct {
+	ID            int
 	Relation      string
 	Cancer        string
 	Age           int
@@ -62,12 +72,20 @@ func NewRelativeHistory(
 	relation string,
 	cancer string,
 	age int,
+	patientID int,
 ) *RelativeHistory {
 	r := RelativeHistory{
-		Relation: relation,
-		Cancer:   cancer,
-		Age:      age,
+		Relation:      relation,
+		Cancer:        cancer,
+		Age:           age,
+		PatientDataID: patientID,
 	}
 
 	return &r
+}
+
+func RelativeHistoryRESTToGORM(rest *RelativeHistoryREST) *RelativeHistory {
+	ret := NewRelativeHistory(rest.Relation, rest.Cancer, rest.Age, rest.PatientDataID)
+	ret.ID = uint(rest.ID)
+	return ret
 }

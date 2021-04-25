@@ -45,8 +45,6 @@ func getPatientHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		json.NewEncoder(w).Encode("Could not find the relative history")
 	}
-
-	json.NewEncoder(w).Encode(patient)
 }
 
 func getRelativeHistoryHandler(w http.ResponseWriter, r *http.Request) {
@@ -98,14 +96,22 @@ func deleteRelativeHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	database.DeleteRelativeHistory(id)
 }
 
+func putRelativeHistory(w http.ResponseWriter, r *http.Request) {
+	var relativeHistory models.RelativeHistoryREST
+	_ = json.NewDecoder(r.Body).Decode(&relativeHistory)
+
+	controllers.UpdateOrCreateNewRelativeHistory(relativeHistory)
+}
+
 func ServeREST() {
 	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/relativeHistory", putRelativeHistory).Methods("PUT")
+	router.HandleFunc("/relativeHistory/{id}", getRelativeHistoryHandler).Methods("GET")
+	router.HandleFunc("/relativeHistory/{id}", deleteRelativeHistoryHandler).Methods("DELETE")
 	router.HandleFunc("/patients", getAllPatientsHandler).Methods("GET")
 	router.HandleFunc("/patientList", getPatientListHandler).Methods("GET").Queries("items", "{items:[0-9]+}", "offset", "{offset:[0-9]+}")
 	router.HandleFunc("/patients/{id}", getPatientHandler).Methods("GET")
-	router.HandleFunc("/relativeHistory/{id}", getRelativeHistoryHandler).Methods("GET")
 	router.HandleFunc("/patients", putPatientHandler).Methods("PUT")
-	router.HandleFunc("/relativeHistory/{id}", deleteRelativeHistoryHandler).Methods("DELETE")
 	router.HandleFunc("/patients/{id}", deletePatientHandler).Methods("DELETE")
 
 	c := cors.New(cors.Options{

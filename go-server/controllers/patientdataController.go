@@ -20,6 +20,16 @@ func UpdateOrCreateNewPatientData(patientData models.PatientDataREST, calculateH
 	}
 }
 
+func UpdateOrCreateNewRelativeHistory(relativeHistory models.RelativeHistoryREST) {
+	toAdd := models.RelativeHistoryRESTToGORM(&relativeHistory)
+
+	if database.RelativeHistoryExists(int(relativeHistory.ID)) {
+		database.UpdateRelativeHistory(toAdd)
+	} else {
+		database.AddRelativeHistory(toAdd)
+	}
+}
+
 func AssignHistoryClass(p *models.PatientData) string {
 	val := rand.Intn(400) % 4
 	switch val {
