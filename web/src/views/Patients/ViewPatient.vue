@@ -7,7 +7,7 @@
             <div v-if="patient !== null" style="min-width: 50%">
                 <div class="d-flex flex-column">
                     <div class="d-inline-flex justify-content-center mb-2">
-                        <span class="h2 me-4">Patient ID #{{ patientId }}</span>
+                        <span class="h2 me-4">Patient #{{ patientId }}</span>
                     </div>
                     <EditableField label="Pathogenic" :value="patient.Pathogenic" />
                     <EditableField label="Gene" :value="patient.Gene" />

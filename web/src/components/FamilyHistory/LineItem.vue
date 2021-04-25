@@ -3,7 +3,7 @@
         <div v-if="!editing">
             <span>{{ value }}{{ append }}</span>
         </div>
-        <div v-else class="d-inline-flex">
+        <div v-else-if="editMode" class="d-inline-flex">
             <b-input v-model="editValue" class="me-2" @blur="stopEdit" @keyup.enter="stopEdit" @keyup.tab="stopEdit" />
         </div>
         <div v-if="editMode && !editing">
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator'
+    import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
     @Component
     export default class LineItem extends Vue {
@@ -32,6 +32,13 @@
         stopEdit() {
             this.editing = false;
             this.$emit('input', this.editValue);
+        }
+
+        @Watch('editMode')
+        editModeChange(newValue: boolean) {
+            if (!newValue) {
+                this.editing = false;
+            }
         }
     }
 </script>

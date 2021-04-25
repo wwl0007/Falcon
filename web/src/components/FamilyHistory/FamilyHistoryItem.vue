@@ -28,7 +28,7 @@
     import { Component, Prop, Vue } from 'vue-property-decorator'
     import { RelativeHistoryItem } from '@/api/patients'
     import LineItem from '@/components/FamilyHistory/LineItem.vue'
-    
+
     @Component({
         components: { LineItem }
     })
