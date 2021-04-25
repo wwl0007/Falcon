@@ -4,7 +4,7 @@
             <span>{{ value }}{{ append }}</span>
         </div>
         <div v-else-if="editMode" class="d-inline-flex">
-            <b-input v-model="editValue" class="me-2" @blur="stopEdit" @keyup.enter="stopEdit" @keyup.tab="stopEdit" />
+            <b-input v-model="editValue" :type="type" class="me-2" @blur="stopEdit" @keyup.enter="stopEdit" @keyup.tab="stopEdit" />
         </div>
         <div v-if="editMode && !editing">
             <i class="ms-2 bi-pencil text-muted" style="font-size: .8rem" @click="startEdit" />
@@ -20,9 +20,10 @@
         @Prop() value!: string;
         @Prop({ default: '' }) append!: string;
         @Prop({ default: false }) editMode!: boolean;
+        @Prop({ default: 'text' }) type!: string;
 
         editing = false;
-        editValue: string | null = null;
+        editValue = '';
 
         startEdit() {
             this.editValue = this.value;
@@ -31,7 +32,8 @@
 
         stopEdit() {
             this.editing = false;
-            this.$emit('input', this.editValue);
+            const newEditValue = this.type === 'number' ? parseInt(this.editValue) : this.editValue;
+            this.$emit('input', newEditValue);
         }
 
         @Watch('editMode')

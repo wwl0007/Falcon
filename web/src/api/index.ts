@@ -9,7 +9,12 @@ function del(path: string, ...rest: any[]) {
     return axios.delete(config.API_HOST + path, ...rest);
 }
 
+function put(path: string, ...rest: any[]) {
+    return axios.put(config.API_HOST + path, ...rest);
+}
+
 export default {
     get,
-    delete: del
+    delete: del,
+    put
 }

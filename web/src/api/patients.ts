@@ -11,21 +11,24 @@ export interface RelativeHistoryItem {
     PatientDataID: number
 }
 
-export interface Patient {
+export interface BasicPatientInfo {
+    Pathogenic: boolean,
+    Gene: string,
+    Ethnicity: string,
+    ConsentApproval: boolean,
+    CancerDX: boolean,
+    CancerDXType: string,
+    CancerDXAge: number,
+    KnownBRCA: boolean,
+    KnownCancer: boolean,
+}
+
+export interface Patient extends BasicPatientInfo {
     ID: number,
     CreatedAt: string,
     UpdatedAt: string,
     DeletedAt: string | null,
-    Pathogenic: string,
-    Gene: string,
     HistoryClass: string,
-    Ethnicity: string,
-    ConsentApproval: string,
-    CancerDX: string,
-    CancerDXType: string,
-    CancerDXAge: number,
-    KnownBRCA: string,
-    KnownCancer: string,
     RelativeHistory: RelativeHistoryItem[]
 }
 
@@ -41,5 +44,31 @@ export async function fetchPatientById(patientId: number) {
 
 export async function deleteRelativeHistory(id: number) {
     const response = await api.delete(`/relativeHistory/${id}`);
+    return response.data;
+}
+
+export async function updateRelativeHistory(value: RelativeHistoryItem) {
+    const response = await api.put(
+        `/relativeHistory`,
+        {
+            ID: value.ID,
+            Relation: value.Relation,
+            Cancer: value.Cancer,
+            Age: value.Age,
+            PatientDataID: value.PatientDataID
+        }
+    );
+
+    return response.data;
+}
+
+export async function createPatient(patient: BasicPatientInfo) {
+    const response = await api.put(
+        `/patients`,
+        {
+            patient
+        }
+    );
+
     return response.data;
 }

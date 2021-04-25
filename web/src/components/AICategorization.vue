@@ -10,12 +10,14 @@
                     type="range"
                     min="0"
                     max="100"
-                    v-model="value"
+                    :value="value"
+                    @input="onInput"
+                    step="33.33333"
                 />
                 <span>100%</span>
             </div>
 
-            <p class="text-muted text-center">Confidence: {{ confidence }}%</p>
+<!--            <p class="text-muted text-center">Confidence: {{ confidence }}%</p>-->
             <p class="text-muted fs-6 text-center">Tip: drag the slider to give the AI feedback.</p>
         </div>
     </div>
@@ -28,6 +30,10 @@
     export default class AICategorization extends Vue {
         @Prop() confidence!: number;
         @Prop() value!: number;
+
+        onInput(event: any) {
+            this.$emit('input', parseInt(event.target.value));
+        }
     }
 </script>
 
@@ -56,6 +62,7 @@
         input[type='range']::-webkit-slider-thumb {
             width: 10px;
             -webkit-appearance: none;
+            margin-top: -20px;
             height: 100px;
             cursor: ew-resize;
             background: #434343;

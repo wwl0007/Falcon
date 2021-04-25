@@ -31,7 +31,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/patients/edit/:patientId?',
         name: 'Edit Patient',
-        component: () => import('../views/Patients/EditPatient.vue')
+        component: () => import('../views/Patients/AddPatient.vue')
     }
 ]
 
