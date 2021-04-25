@@ -7,26 +7,26 @@ import (
 	"github.com/wwl0007/Project3/models"
 )
 
-func UpdateOrCreateNewPatientData(patientData models.PatientDataREST, calculateHistoryClass bool) {
+func UpdateOrCreateNewPatientData(patientData models.PatientDataREST, calculateHistoryClass bool) models.PatientData {
 	toAdd := models.PatientDataRESTToGORM(&patientData)
 
 	if database.PatientDataExists(int(patientData.ID)) {
-		database.UpdatePatientData(toAdd)
+		return database.UpdatePatientData(toAdd)
 	} else {
 		if calculateHistoryClass {
 			toAdd.HistoryClass = AssignHistoryClass(toAdd)
 		}
-		database.AddPatientData(toAdd)
+		return database.AddPatientData(toAdd)
 	}
 }
 
-func UpdateOrCreateNewRelativeHistory(relativeHistory models.RelativeHistoryREST) {
+func UpdateOrCreateNewRelativeHistory(relativeHistory models.RelativeHistoryREST) models.RelativeHistory {
 	toAdd := models.RelativeHistoryRESTToGORM(&relativeHistory)
 
 	if database.RelativeHistoryExists(int(relativeHistory.ID)) {
-		database.UpdateRelativeHistory(toAdd)
+		return database.UpdateRelativeHistory(toAdd)
 	} else {
-		database.AddRelativeHistory(toAdd)
+		return database.AddRelativeHistory(toAdd)
 	}
 }
 
