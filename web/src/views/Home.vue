@@ -12,6 +12,7 @@
                     </p>
                     <ul>
                         <li>Bill Luu</li>
+                        <li>Jordan Davis</li>
                         <li>Wesley Lowman</li>
                         <li>Michael Porter</li>
                     </ul>

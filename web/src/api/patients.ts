@@ -12,15 +12,15 @@ export interface RelativeHistoryItem {
 }
 
 export interface BasicPatientInfo {
-    Pathogenic: boolean,
+    Pathogenic: string,
     Gene: string,
     Ethnicity: string,
-    ConsentApproval: boolean,
-    CancerDX: boolean,
+    ConsentApproval: string,
+    CancerDX: string,
     CancerDXType: string,
     CancerDXAge: number,
-    KnownBRCA: boolean,
-    KnownCancer: boolean,
+    KnownBRCA: string,
+    KnownCancer: string
 }
 
 export interface Patient extends BasicPatientInfo {
@@ -66,7 +66,17 @@ export async function createPatient(patient: BasicPatientInfo) {
     const response = await api.put(
         `/patients`,
         {
-            patient
+            Pathogenic: patient.Pathogenic,
+            Gene: patient.Gene,
+            full_history: {
+                ethnicity: patient.Ethnicity,
+                consent_approval: patient.ConsentApproval,
+                cancer_dx: patient.CancerDX,
+                cancer_dx_type: patient.CancerDXType,
+                cancer_dx_age: patient.CancerDXAge,
+                known_brca: patient.KnownBRCA,
+                known_cancer: patient.KnownCancer
+            }
         }
     );
 

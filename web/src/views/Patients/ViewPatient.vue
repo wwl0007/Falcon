@@ -46,7 +46,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import { fetchPatientById, Patient, RelativeHistoryItem, updateRelativeHistory } from '@/api/patients'
+    import { fetchPatientById, Patient, RelativeHistoryItem } from '@/api/patients'
     import EditableField from '@/components/EditableField.vue'
     import FamilyHistoryViewer from '@/components/FamilyHistory/FamilyHistoryViewer.vue'
     import FamilyHistoryItem from '@/components/FamilyHistory/FamilyHistoryItem.vue'

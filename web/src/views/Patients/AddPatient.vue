@@ -11,7 +11,7 @@
 
                     <div class="form-input">
                         Is Pathogenic?
-                        <b-checkbox v-model="isPathogenic" />
+                        <b-input v-model="isPathogenic" />
                     </div>
                     <div class="form-input">
                         <b-input-group prepend="Gene">
@@ -25,11 +25,11 @@
                     </div>
                     <div class="form-input">
                         Consent Approval
-                        <b-checkbox v-model="consentApproval" />
+                        <b-input v-model="consentApproval"/>
                     </div>
                     <div class="form-input">
                         Cancer DX
-                        <b-checkbox v-model="cancerDX" />
+                        <b-input v-model="cancerDX" />
                     </div>
                     <div class="form-input">
                         <b-input-group prepend="Cancer DX Type">
@@ -42,11 +42,11 @@
                     </div>
                     <div class="form-input">
                         Known BRCA
-                        <b-checkbox v-model="knownBRCA" />
+                        <b-input v-model="knownBRCA" />
                     </div>
                     <div class="form-input">
                         Known Cancer
-                        <b-checkbox v-model="knownCancer" />
+                        <b-input v-model="knownCancer" />
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -60,25 +60,25 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import { createPatient, RelativeHistoryItem } from '@/api/patients'
+    import { createPatient, Patient } from '@/api/patients'
     import FamilyHistoryViewer from '@/components/FamilyHistory/FamilyHistoryViewer.vue'
 
     @Component({
         components: { FamilyHistoryViewer }
     })
     export default class AddPatient extends Vue {
-        isPathogenic = false;
+        isPathogenic = "FALSE";
         ethnicity = "";
-        consentApproval = false;
-        cancerDX = false;
+        consentApproval = "FALSE";
+        cancerDX = "FALSE";
         cancerDXType = "";
         cancerDXAge = 0;
-        knownBRCA = false;
-        knownCancer = false;
+        knownBRCA = "FALSE";
+        knownCancer = "FALSE";
         gene = "";
 
         async submitForm() {
-            const response = await createPatient(
+            const result = await createPatient(
                 {
                     Pathogenic: this.isPathogenic,
                     Gene: this.gene,
@@ -90,9 +90,9 @@
                     KnownBRCA: this.knownBRCA,
                     KnownCancer: this.knownCancer
                 }
-            );
+            ) as Patient;
 
-            console.log(response);
+            await this.$router.push(`/patients/view/${result.ID}`);
         }
     }
 </script>
