@@ -31,20 +31,22 @@ func new(dbFilename string) *gorm.DB {
 	return db
 }
 
-func UpdatePatientData(toAdd *models.PatientData) {
+func UpdatePatientData(toAdd *models.PatientData) models.PatientData {
 	db := DBRef()
 	err := db.Save(toAdd).Error
 	if err != nil {
 		log.Printf("%+v", err)
 	}
+	return *toAdd
 }
 
-func AddPatientData(toAdd *models.PatientData) {
+func AddPatientData(toAdd *models.PatientData) models.PatientData {
 	db := DBRef()
 	err := db.Create(toAdd).Error
 	if err != nil {
 		log.Printf("%+v", err)
 	}
+	return *toAdd
 }
 
 func GetPatient(id int) (models.PatientData, error) {
@@ -83,20 +85,22 @@ func RelativeHistoryExists(ID int) bool {
 	}
 }
 
-func UpdateRelativeHistory(toAdd *models.RelativeHistory) {
+func UpdateRelativeHistory(toAdd *models.RelativeHistory) models.RelativeHistory {
 	db := DBRef()
 	err := db.Save(toAdd).Error
 	if err != nil {
 		log.Printf("%+v", err)
 	}
+	return *toAdd
 }
 
-func AddRelativeHistory(toAdd *models.RelativeHistory) {
+func AddRelativeHistory(toAdd *models.RelativeHistory) models.RelativeHistory {
 	db := DBRef()
 	err := db.Create(toAdd).Error
 	if err != nil {
 		log.Printf("%+v", err)
 	}
+	return *toAdd
 }
 
 func GetRelativeHistory(id int) (models.RelativeHistory, error) {

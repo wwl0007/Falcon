@@ -73,7 +73,7 @@ func putPatientHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	controllers.UpdateOrCreateNewPatientData(patientData, true)
+	json.NewEncoder(w).Encode(controllers.UpdateOrCreateNewPatientData(patientData, true))
 }
 
 func deletePatientHandler(w http.ResponseWriter, r *http.Request) {
@@ -100,7 +100,7 @@ func putRelativeHistory(w http.ResponseWriter, r *http.Request) {
 	var relativeHistory models.RelativeHistoryREST
 	_ = json.NewDecoder(r.Body).Decode(&relativeHistory)
 
-	controllers.UpdateOrCreateNewRelativeHistory(relativeHistory)
+	json.NewEncoder(w).Encode(controllers.UpdateOrCreateNewRelativeHistory(relativeHistory))
 }
 
 func ServeREST() {
