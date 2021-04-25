@@ -1,7 +1,7 @@
 import api from ".";
 
 export interface RelativeHistoryItem {
-    ID: boolean,
+    ID: number,
     CreatedAt: string,
     UpdatedAt: string,
     DeletedAt: string | null,
@@ -36,5 +36,10 @@ export async function fetchPatients() {
 
 export async function fetchPatientById(patientId: number) {
     const response = await api.get(`/patients/${patientId}`);
+    return response.data;
+}
+
+export async function deleteRelativeHistory(id: number) {
+    const response = await api.delete(`/relativeHistory/${id}`);
     return response.data;
 }

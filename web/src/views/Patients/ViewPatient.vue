@@ -9,6 +9,12 @@
                     <div class="d-inline-flex justify-content-center mb-2">
                         <span class="h2 me-4">Patient #{{ patientId }}</span>
                     </div>
+
+                    <AICategorization
+                        :confidence="93"
+                        :value="73"
+                    />
+
                     <EditableField label="Pathogenic" :value="patient.Pathogenic" />
                     <EditableField label="Gene" :value="patient.Gene" />
                     <EditableField label="History Class" :value="patient.HistoryClass" />
@@ -26,6 +32,7 @@
                         v-for="familyMember of patient.RelativeHistory"
                         :key="familyMember.ID"
                         :value="familyMember"
+                        @deleted="onHistoryItemDeleted"
                     />
                 </div>
             </div>
@@ -38,12 +45,13 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import { fetchPatientById, Patient } from '@/api/patients'
+    import { fetchPatientById, Patient, RelativeHistoryItem } from '@/api/patients'
     import EditableField from '@/components/EditableField.vue'
     import FamilyHistoryViewer from '@/components/FamilyHistory/FamilyHistoryViewer.vue'
     import FamilyHistoryItem from '@/components/FamilyHistory/FamilyHistoryItem.vue'
+    import AICategorization from "@/components/AICategorization.vue";
     @Component({
-        components: { FamilyHistoryItem, FamilyHistoryViewer, EditableField }
+        components: { AICategorization, FamilyHistoryItem, FamilyHistoryViewer, EditableField }
     })
     export default class ViewPatient extends Vue {
         patient: Patient | null = null;
@@ -54,6 +62,12 @@
 
         async mounted() {
             this.patient = await fetchPatientById(this.patientId);
+        }
+
+        onHistoryItemDeleted(item: RelativeHistoryItem) {
+            if (this.patient) {
+                this.patient.RelativeHistory = this.patient.RelativeHistory.filter(i => i.ID !== item.ID);
+            }
         }
     }
 </script>

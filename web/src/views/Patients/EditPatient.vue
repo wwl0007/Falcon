@@ -84,10 +84,6 @@
         get gene() {
             return this.selectedLetters.join("");
         }
-
-        mounted() {
-            console.log(this.$router.currentRoute.params);
-        }
     }
 </script>
 

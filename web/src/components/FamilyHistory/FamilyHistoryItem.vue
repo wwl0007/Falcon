@@ -18,7 +18,7 @@
                 <b-button size="sm">Save</b-button>
             </div>
             <div>
-                <b-button size="sm" variant="danger">Delete</b-button>
+                <b-button size="sm" variant="danger" @click="deleteItem">Delete</b-button>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator'
-    import { RelativeHistoryItem } from '@/api/patients'
+    import { deleteRelativeHistory, RelativeHistoryItem } from '@/api/patients'
     import LineItem from '@/components/FamilyHistory/LineItem.vue'
 
     @Component({
@@ -37,8 +37,13 @@
 
         editMode = false;
 
-        onValueChange() {
+        async deleteItem() {
+            await deleteRelativeHistory(this.value.ID);
+            this.$emit('deleted', this.value);
+        }
 
+        onValueChange() {
+            console.log("Value changed. doing nothing, this is a stub");
         }
     }
 </script>

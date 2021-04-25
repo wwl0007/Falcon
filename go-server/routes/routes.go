@@ -45,8 +45,6 @@ func getPatientHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		json.NewEncoder(w).Encode("Could not find the relative history")
 	}
-
-	json.NewEncoder(w).Encode(patient)
 }
 
 func getRelativeHistoryHandler(w http.ResponseWriter, r *http.Request) {
@@ -109,8 +107,9 @@ func ServeREST() {
 	router.HandleFunc("/patients/{id}", deletePatientHandler).Methods("DELETE")
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8080"},
+		AllowedOrigins:   []string{"http://localhost:8080", "http://127.0.0.1:8080"},
 		AllowCredentials: true,
+		AllowedMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"},
 	})
 
 	handler := c.Handler(router)
