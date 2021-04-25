@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"math/rand"
-
 	"github.com/wwl0007/Project3/database"
 	"github.com/wwl0007/Project3/models"
 )
@@ -31,16 +29,14 @@ func UpdateOrCreateNewRelativeHistory(relativeHistory models.RelativeHistoryREST
 }
 
 func AssignHistoryClass(p *models.PatientData) string {
-	val := rand.Intn(400) % 4
-	switch val {
-	case 0:
-		return "strong_personal"
-	case 1:
-		return "strong_family"
-	case 2:
-		return "not_strong"
-	case 3:
-		return "none"
+	class := "none"
+
+	if len(p.FullHistory.RelativeHistory) > 4 {
+		class = "strong_family"
+	} else if p.FullHistory.KnownCancer == "yes" {
+		class = "strong_personal"
+	} else if p.FullHistory.CancerDX == "yes" || len(p.FullHistory.RelativeHistory) > 0 {
+		class = "not_strong"
 	}
-	return "none"
+	return class
 }
